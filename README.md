@@ -24,6 +24,6 @@
   There are two options to play:
   <ul>
     <li>Download the 'browser-block-game' folder and open the 'index.html' file, this should open the game in your browser</li>
-    <li>This repositories's Github Pages site, linked in the description(and <a href="https://cyan-teal.github.io/Browser-Block-Game/">here!</a>)</li>
+    <li>This repositories's Github Pages site, linked in the description(and <a href="https://cyan-teal.github.io">here!</a>)</li>
   </ul>
 </p>
