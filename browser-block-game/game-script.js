@@ -23,17 +23,6 @@ let net = 1;
 let g;
 const orange = 250;
 
-// Player 2 here
-let oXW; 
-let oYW; 
-let oXvW;
-let oYvW; 
-let floorW; 
-let aW = 0;
-let dkW = 0;
-let wW = 0;
-let sW = 0;
-
 // Buttons. e.g. W,A,S;D.
 let a = 0;
 let dk = 0;
@@ -81,7 +70,7 @@ function shift() {
 // says when a key's held.
 function lower() {
     let it = event.key;
-    if (it == "ArrowLeft") {
+    if (it == "a" || it == "ArrowLeft") {
         a = 1;
     } else if (it == "q") {
         // 'Q' is a shortcut for testing:
@@ -89,51 +78,34 @@ function lower() {
         alert(pX);
         alert(pY);
         alert(pT);
-    } else if (it == "ArrowRight") {
+    } else if (it == "d" || it == "ArrowRight") {
         dk = 1;
-    } else if (it == "ArrowUp") {
+    } else if (it == "w" || it == "ArrowUp") {
         w = 20;
     } else if (it == " ") {
         net = (net + 1) % 5;
     } else if (it == "z") {
         alert(1000 / D);
-    } else if (it == "ArrowDown") {
+    } else if (it == "s" || it == "ArrowDown") {
         X = Math.floor((oX + 17.5) / 50) * 50;
         Y = Math.floor((oY + 105) / 50) * 50;
         spec = "true";
         s = 1;
-    }
-
-    
-    if (it == "a") {
-        aW = 1;
-    } else if (it == "d") {
-        dkW = 1;
-    } else if (it == "w") {
-        wW = 20;
     }
 }
 
 // says when a key's no longer held.
 function high() {
     let it = event.key;
-    if (it == "ArrowLeft") {
+    if (it == "a" || it == "ArrowLeft") {
         a = 0;
-    } else if (it == "ArrowRight") {
+    } else if (it == "d" || it == "ArrowRight") {
         dk = 0;
-    } else if (it == "ArrowUp") {
+    } else if (it == "w" || it == "ArrowUp") {
         w = 0;
-    } else if (it == "ArrowDown") {
+    } else if (it == "s" || it == "ArrowDown") {
         spec = "false";
         s = 0;
-    }
-    
-    if (it == "a") {
-        aW = 0;
-    } else if (it == "d") {
-        dkW = 0;
-    } else if (it == "w") {
-        wW = 0;
     }
 }
 
@@ -159,10 +131,6 @@ function redo() {
     oYv = 0;
     oX = (can.width - 35) / 2;
     oY = -80;
-    oXvW = 0;
-    oYvW = 0;
-    oXW = (can.width - 35) / 3 * 2;
-    oYW = -80 - 800;
     creation();
 }
 
@@ -178,11 +146,8 @@ function loop() {
     lastUpdate = now;
 
     con(); //- Controls
-    conW()
     col(); //- Collisions
-    colW();
     pos(); //- Positioning
-    posW()
     make(); //- Making
     let abc
     if (net == 0) {
@@ -214,22 +179,6 @@ function con() {
     if (w >= 10 && floor >= 1) {
         oYv = -1.25 * D;
         //w = 0;
-}}
-
-// interprets inputs as controls for second player
-function conW() {
-    if (aW == 1) {
-        oXvW -= .1 * D;
-    }
-    if (dkW == 1) {
-        oXvW += .1 * D;
-    }
-    if (sW == 1 && dist() <= orange) {
-            place(X, Y, net);
-    }
-    if (wW >= 10 && floorW >= 1) {
-        oYvW = -1.25 * D;
-        //wW = 0;
 }}
 
 // returns distance between player and cursor.
@@ -305,18 +254,6 @@ function make() {
     ctx.fillRect(oX + 5, oY - 15, 25, 10);
     ctx.fillStyle = "#494697";
     ctx.fillRect(oX + 5, oY + 50, 25, 30);
-
-    // draws the second player character
-    ctx.fillStyle = "#8cbe8a";
-    ctx.fillRect(oXW - 8.75, oYW + 10, 52.5, 40);
-    ctx.fillStyle = "#f2daba";
-    ctx.fillRect(oXW + 5, oYW - 15, 25, 25);
-    ctx.fillRect(oXW - 8.75, oYW + 20, 12.5, 30);
-    ctx.fillRect(oXW + 30, oYW + 20, 12.5, 30);
-    ctx.fillStyle = "#e59947";
-    ctx.fillRect(oXW + 5, oYW - 15, 25, 10);
-    ctx.fillStyle = "#684530";
-    ctx.fillRect(oXW + 5, oYW + 50, 25, 30);
 
     // draws various blocks onto the map
     for (let i = 0; i < num; i++) {
@@ -412,30 +349,7 @@ function pos() {
     }
     oX += oXv;
     oY += oYv;
-    if (oY >= can.height && oYW >= can.height) {
-        redo();
-    }
-}
-
-// positioning/Movement for the seconds player.
-function posW() {
-    if (oYvW != 0) {
-        oYvW *= 0.85;
-    }
-    if (oXvW != 0) {
-        oXvW *= 0.85;
-    }
-    if (floorW == 1) {
-        oYW -= 1;
-        if (oYvW >= 0) {
-            oYvW = 0;
-        }
-    } else {
-        oYvW += .075 * D;
-    }
-    oXW += oXvW;
-    oYW += oYvW;
-    if (oYW >= can.height && oY >= can.height) {
+    if (oY >= can.height) {
         redo();
     }
 }
@@ -476,40 +390,4 @@ function col() {
             if (pY[i] <= C(oY, 75) && pY[i] >= C(oY, 15) && floor != 10 && pX[i] >= C(oX, 0) && pX[i] <= C(oX, -35)) {
                 oXv = 0;
                 oX ++;
-            
-            }
-        }
-    }
- }
-
-// defines collisions for the second player.
-function colW() {
-    let hey = "k";
-    // translates Player positions onto the grid too, To match.
-    let okX = Math.floor((oXW) / 50) * 50;
-    let okX2 = Math.floor((oXW + 35) / 50) * 50;
-    let okY = Math.floor((oYW + 105) / 50) * 50;
-    let okY2 = Math.floor((oYW + 80) / 50) * 50;
-    for (let i = 0; i <= pT.length; i++) {
-        if (pT[i] != 0) {
-            // floor and ceiling collisions(vertical).
-            if (pY[i] <= C(oYW, 80) && pY[i] >= C(oYW, 105) && pX[i] >= C(oXW, 10) && pX[i] <= C(oXW, 25)) {
-                hey = "nok";
-                floorW = 1;
-            } else if (hey == "k") {
-                floorW -= 1 * D;
-            }
-            if (pY[i] >= C(oYW, -10) && pY[i] <= C(oYW, 25) && pX[i] >= C(oXW, 10) && pX[i] <= C(oXW, 25)) {
-                oYvW = 0;
-                oYW ++;
-            }
-
-            // wall collisions(horizontal).
-            if (pY[i] <= C(oYW, 75) && pY[i] >= C(oYW, 15) && floor != 10 && pX[i] >= C(oXW, 35) && pX[i] <= C(oXW, 35)) {
-                    oXvW = 0;
-                    oXW --;
-            }
-            if (pY[i] <= C(oYW, 75) && pY[i] >= C(oYW, 15) && floor != 10 && pX[i] >= C(oXW, 0) && pX[i] <= C(oXW, -35)) {
-                oXvW = 0;
-                oXW ++;
 }}}}
