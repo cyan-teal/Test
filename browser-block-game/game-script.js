@@ -34,6 +34,28 @@ let dkW = 0;
 let wW = 0;
 let sW = 0;
 
+// Player 3 here
+let oXWW; 
+let oYWW; 
+let oXvWW;
+let oYvWW; 
+let floorWW; 
+let aWW = 0;
+let dkWW = 0;
+let wWW = 0;
+let sWW = 0;
+
+// Player 4 here
+let oXWWW; 
+let oYWWW; 
+let oXvWWW;
+let oYvWWW; 
+let floorWWW; 
+let aWWW = 0;
+let dkWWW = 0;
+let wWWW = 0;
+let sWWW = 0;
+
 // Buttons. e.g. W,A,S;D.
 let a = 0;
 let dk = 0;
@@ -58,6 +80,7 @@ requestAnimationFrame(loop);
 // Tells Player controls.
 function notify() {
     alert("WASD / Arrows to move, mouse to build, and Space to cycle blocks.");
+    lastUpdate = Date.now()
 }
 
 // Handle actions following the mouse going down.
@@ -83,20 +106,22 @@ function lower() {
     let it = event.key;
     if (it == "ArrowLeft") {
         a = 1;
-    } else if (it == "q") {
+  /*  } else if (it == "q") {
         // 'Q' is a shortcut for testing:
         // it shows these 3 arrays which hold all the information for block: x positions, y positions and types.
         alert(pX);
         alert(pY);
         alert(pT);
+        lastUpdate = Date.now()*/
     } else if (it == "ArrowRight") {
         dk = 1;
     } else if (it == "ArrowUp") {
         w = 20;
-    } else if (it == " ") {
+    } else if (it == "Shift") {
         net = (net + 1) % 5;
     } else if (it == "z") {
-        alert(1000 / D);
+        alert(1000 / D);   
+        lastUpdate = Date.now()
     } else if (it == "ArrowDown") {
         X = Math.floor((oX + 17.5) / 50) * 50;
         Y = Math.floor((oY + 105) / 50) * 50;
@@ -104,13 +129,46 @@ function lower() {
         s = 1;
     }
 
-    
-    if (it == "a") {
+    if (it == "q") {
         aW = 1;
-    } else if (it == "d") {
+    } else if (it == "e") {
         dkW = 1;
-    } else if (it == "w") {
+    } else if (it == "2") {
+        if (oXW < -9999) {
+            oXW = (can.width - 35) / 2;
+            oYW = -160;
+            oXvW = 0;
+            oYvW = 0;
+        }
         wW = 20;
+    }
+    
+    if (it == "x") {
+        aWW = 1;
+    } else if (it == "v") {
+        dkWW = 1;
+    } else if (it == "d") {
+        if (oXWW < -9999) {
+            oXWW = (can.width - 35) / 4 * 3;
+            oYWW = -160;
+            oXvWW = 0;
+            oYvWW = 0;
+        }
+        wWW = 20;
+    }
+    
+    if (it == "h") {
+        aWWW = 1;
+    } else if (it == "k") {
+        dkWWW = 1;
+    } else if (it == "u") {
+        if (oXWWW < -9999) {
+            oXWWW = (can.width - 35) / 4;
+            oYWWW = -160;
+            oXvWWW = 0;
+            oYvWWW = 0;
+        }
+        wWWW = 20;
     }
 }
 
@@ -128,12 +186,28 @@ function high() {
         s = 0;
     }
     
-    if (it == "a") {
+    if (it == "q") {
         aW = 0;
-    } else if (it == "d") {
+    } else if (it == "e") {
         dkW = 0;
-    } else if (it == "w") {
+    } else if (it == "2") {
         wW = 0;
+    }
+    
+    if (it == "x") {
+        aWW = 0;
+    } else if (it == "v") {
+        dkWW = 0;
+    } else if (it == "d") {
+        wWW = 0;
+    }
+    
+    if (it == "h") {
+        aWWW = 0;
+    } else if (it == "k") {
+        dkWWW = 0;
+    } else if (it == "u") {
+        wWWW = 0;
     }
 }
 
@@ -161,8 +235,16 @@ function redo() {
     oY = -80;
     oXvW = 0;
     oYvW = 0;
-    oXW = (can.width - 35) / 3 * 2;
-    oYW = -80 - 800;
+    oXW = -99999;
+    oYW = can.height;
+    oXvWW = 0;
+    oYvWW = 0;
+    oXWW = -99999;
+    oYWW = can.height;
+    oXvWWW = 0;
+    oYvWWW = 0;
+    oXWWW = -99999;
+    oYWWW = can.height;
     creation();
 }
 
@@ -178,11 +260,17 @@ function loop() {
     lastUpdate = now;
 
     con(); //- Controls
-    conW()
+    conW();
+    conWW();
+    conWWW();
     col(); //- Collisions
     colW();
+    colWW();
+    colWWW();
     pos(); //- Positioning
     posW()
+    posWW();
+    posWWW();
     make(); //- Making
     let abc
     if (net == 0) {
@@ -224,12 +312,35 @@ function conW() {
     if (dkW == 1) {
         oXvW += .1 * D;
     }
-    if (sW == 1 && dist() <= orange) {
-            place(X, Y, net);
-    }
     if (wW >= 10 && floorW >= 1) {
         oYvW = -1.25 * D;
         //wW = 0;
+}}
+
+// interprets inputs as controls for third player
+function conWW() {
+    if (aWW == 1) {
+        oXvWW -= .1 * D;
+    }
+    if (dkWW == 1) {
+        oXvWW += .1 * D;
+    }
+    if (wWW >= 10 && floorWW >= 1) {
+        oYvWW = -1.25 * D;
+        //wWW = 0;
+}}
+
+// interprets inputs as controls for fourth player
+function conWWW() {
+    if (aWWW == 1) {
+        oXvWWW -= .1 * D;
+    }
+    if (dkWWW == 1) {
+        oXvWWW += .1 * D;
+    }
+    if (wWWW >= 10 && floorWWW >= 1) {
+        oYvWWW = -1.25 * D;
+        //wWWW = 0;
 }}
 
 // returns distance between player and cursor.
@@ -294,17 +405,29 @@ function make() {
     ctx.fillRect(oX, oY, 35, 80);*/
     // ^^ shows player hit-box, a red rectangle(used for testing).
 
-    // draws player character
-    ctx.fillStyle = "#0eaeae";
-    ctx.fillRect(oX - 8.75, oY + 10, 52.5, 40);
-    ctx.fillStyle = "#a97d64";
-    ctx.fillRect(oX + 5, oY - 15, 25, 25);
-    ctx.fillRect(oX - 8.75, oY + 20, 12.5, 30);
-    ctx.fillRect(oX + 30, oY + 20, 12.5, 30);
-    ctx.fillStyle = "#5C4033";
-    ctx.fillRect(oX + 5, oY - 15, 25, 10);
-    ctx.fillStyle = "#494697";
-    ctx.fillRect(oX + 5, oY + 50, 25, 30);
+    // draws the fourth player character
+    ctx.fillStyle = "#8cbe8a";
+    ctx.fillRect(oXWWW - 8.75, oYWWW + 10, 52.5, 40);
+    ctx.fillStyle = "#f2daba";
+    ctx.fillRect(oXWWW + 5, oYWWW - 15, 25, 25);
+    ctx.fillRect(oXWWW - 8.75, oYWWW + 20, 12.5, 30);
+    ctx.fillRect(oXWWW + 30, oYWWW + 20, 12.5, 30);
+    ctx.fillStyle = "#e59947";
+    ctx.fillRect(oXWWW + 5, oYWWW - 15, 25, 10);
+    ctx.fillStyle = "#684530";
+    ctx.fillRect(oXWWW + 5, oYWWW + 50, 25, 30);
+    
+    // draws the third player character
+    ctx.fillStyle = "#8cbe8a";
+    ctx.fillRect(oXWW - 8.75, oYWW + 10, 52.5, 40);
+    ctx.fillStyle = "#f2daba";
+    ctx.fillRect(oXWW + 5, oYWW - 15, 25, 25);
+    ctx.fillRect(oXWW - 8.75, oYWW + 20, 12.5, 30);
+    ctx.fillRect(oXWW + 30, oYWW + 20, 12.5, 30);
+    ctx.fillStyle = "#e59947";
+    ctx.fillRect(oXWW + 5, oYWW - 15, 25, 10);
+    ctx.fillStyle = "#684530";
+    ctx.fillRect(oXWW + 5, oYWW + 50, 25, 30);
 
     // draws the second player character
     ctx.fillStyle = "#8cbe8a";
@@ -317,6 +440,18 @@ function make() {
     ctx.fillRect(oXW + 5, oYW - 15, 25, 10);
     ctx.fillStyle = "#684530";
     ctx.fillRect(oXW + 5, oYW + 50, 25, 30);
+
+    // draws player character
+    ctx.fillStyle = "#0eaeae";
+    ctx.fillRect(oX - 8.75, oY + 10, 52.5, 40);
+    ctx.fillStyle = "#a97d64";
+    ctx.fillRect(oX + 5, oY - 15, 25, 25);
+    ctx.fillRect(oX - 8.75, oY + 20, 12.5, 30);
+    ctx.fillRect(oX + 30, oY + 20, 12.5, 30);
+    ctx.fillStyle = "#5C4033";
+    ctx.fillRect(oX + 5, oY - 15, 25, 10);
+    ctx.fillStyle = "#494697";
+    ctx.fillRect(oX + 5, oY + 50, 25, 30);
 
     // draws various blocks onto the map
     for (let i = 0; i < num; i++) {
@@ -440,6 +575,52 @@ function posW() {
     }
 }
 
+// positioning/Movement for the third player.
+function posWW() {
+    if (oYvWW != 0) {
+        oYvWW *= 0.85;
+    }
+    if (oXvWW != 0) {
+        oXvWW *= 0.85;
+    }
+    if (floorWW == 1) {
+        oYWW -= 1;
+        if (oYvWW >= 0) {
+            oYvWW = 0;
+        }
+    } else {
+        oYvWW += .075 * D;
+    }
+    oXWW += oXvWW;
+    oYWW += oYvWW;
+    if (oYWW >= can.height && oY >= can.height) {
+        redo();
+    }
+}
+
+// positioning/Movement for the four player.
+function posWWW() {
+    if (oYvWWW != 0) {
+        oYvWWW *= 0.85;
+    }
+    if (oXvWWW != 0) {
+        oXvWWW *= 0.85;
+    }
+    if (floorWWW == 1) {
+        oYWWW -= 1;
+        if (oYvWWW >= 0) {
+            oYvWWW = 0;
+        }
+    } else {
+        oYvWWW += .075 * D;
+    }
+    oXWWW += oXvWWW;
+    oYWWW += oYvWWW;
+    if (oYWWW >= can.height && oY >= can.height) {
+        redo();
+    }
+}
+
 // standardises positions onto the grid for checking.
 function C(method, offput) {
     return Math.floor((method + offput) / 50) * 50;
@@ -512,4 +693,70 @@ function colW() {
             if (pY[i] <= C(oYW, 75) && pY[i] >= C(oYW, 15) && floor != 10 && pX[i] >= C(oXW, 0) && pX[i] <= C(oXW, -35)) {
                 oXvW = 0;
                 oXW ++;
+}}}}
+
+
+// defines collisions for the third player.
+function colWW() {
+    let hey = "k";
+    // translates Player positions onto the grid too, To match.
+    let okX = Math.floor((oXWW) / 50) * 50;
+    let okX2 = Math.floor((oXWW + 35) / 50) * 50;
+    let okY = Math.floor((oYWW + 105) / 50) * 50;
+    let okY2 = Math.floor((oYWW + 80) / 50) * 50;
+    for (let i = 0; i <= pT.length; i++) {
+        if (pT[i] != 0) {
+            // floor and ceiling collisions(vertical).
+            if (pY[i] <= C(oYWW, 80) && pY[i] >= C(oYWW, 105) && pX[i] >= C(oXWW, 10) && pX[i] <= C(oXWW, 25)) {
+                hey = "nok";
+                floorWW = 1;
+            } else if (hey == "k") {
+                floorWW -= 1 * D;
+            }
+            if (pY[i] >= C(oYWW, -10) && pY[i] <= C(oYWW, 25) && pX[i] >= C(oXWW, 10) && pX[i] <= C(oXWW, 25)) {
+                oYvWW = 0;
+                oYWW ++;
+            }
+
+            // wall collisions(horizontal).
+            if (pY[i] <= C(oYWW, 75) && pY[i] >= C(oYWW, 15) && floor != 10 && pX[i] >= C(oXWW, 35) && pX[i] <= C(oXWW, 35)) {
+                    oXvWW = 0;
+                    oXWW --;
+            }
+            if (pY[i] <= C(oYWW, 75) && pY[i] >= C(oYWW, 15) && floor != 10 && pX[i] >= C(oXWW, 0) && pX[i] <= C(oXWW, -35)) {
+                oXvWW = 0;
+                oXWW ++;
+}}}}
+
+
+// defines collisions for the fourth player.
+function colWWW() {
+    let hey = "k";
+    // translates Player positions onto the grid too, To match.
+    let okX = Math.floor((oXWWW) / 50) * 50;
+    let okX2 = Math.floor((oXWWW + 35) / 50) * 50;
+    let okY = Math.floor((oYWWW + 105) / 50) * 50;
+    let okY2 = Math.floor((oYWWW + 80) / 50) * 50;
+    for (let i = 0; i <= pT.length; i++) {
+        if (pT[i] != 0) {
+            // floor and ceiling collisions(vertical).
+            if (pY[i] <= C(oYWWW, 80) && pY[i] >= C(oYWWW, 105) && pX[i] >= C(oXWWW, 10) && pX[i] <= C(oXWWW, 25)) {
+                hey = "nok";
+                floorWWW = 1;
+            } else if (hey == "k") {
+                floorWWW -= 1 * D;
+            }
+            if (pY[i] >= C(oYWWW, -10) && pY[i] <= C(oYWWW, 25) && pX[i] >= C(oXWWW, 10) && pX[i] <= C(oXWWW, 25)) {
+                oYvWWW = 0;
+                oYWWW ++;
+            }
+
+            // wall collisions(horizontal).
+            if (pY[i] <= C(oYWWW, 75) && pY[i] >= C(oYWWW, 15) && floor != 10 && pX[i] >= C(oXWWW, 35) && pX[i] <= C(oXWWW, 35)) {
+                    oXvWWW = 0;
+                    oXWWW --;
+            }
+            if (pY[i] <= C(oYWWW, 75) && pY[i] >= C(oYWWW, 15) && floor != 10 && pX[i] >= C(oXWWW, 0) && pX[i] <= C(oXWWW, -35)) {
+                oXvWWW = 0;
+                oXWWW ++;
 }}}}
