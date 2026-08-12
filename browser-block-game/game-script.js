@@ -323,7 +323,7 @@ function conWW() {
         oXvWW += .1 * D;
     }
     if (wWW >= 10 && floorWW >= 1) {
-        oYvWW = -1.25 * D;
+        oYvWW = -1.65 * D;
         //wWW = 0;
 }}
 
@@ -590,7 +590,7 @@ function posWW() {
             oYvWW = 0;
         }
     } else {
-        oYvWW += .075 * D;
+        oYvWW += .042 * D;
     }
     oXWW += oXvWW;
     oYWW += oYvWW;
