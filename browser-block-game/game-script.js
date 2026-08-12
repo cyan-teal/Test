@@ -79,7 +79,7 @@ requestAnimationFrame(loop);
 
 // Tells Player controls.
 function notify() {
-    alert("WASD / Arrows to move, mouse to build, and Space to cycle blocks.");
+    alert("P1: Arrows + Shift. P2: 2QE. P3:DXV. P4:UHK");
     lastUpdate = Date.now()
 }
 
@@ -119,9 +119,6 @@ function lower() {
         w = 20;
     } else if (it == "Shift") {
         net = (net + 1) % 5;
-    } else if (it == "z") {
-        alert(1000 / D);   
-        lastUpdate = Date.now()
     } else if (it == "ArrowDown") {
         X = Math.floor((oX + 17.5) / 50) * 50;
         Y = Math.floor((oY + 105) / 50) * 50;
@@ -134,8 +131,8 @@ function lower() {
     } else if (it == "e") {
         dkW = 1;
     } else if (it == "2") {
-        if (oXW < -9999) {
-            oXW = (can.width - 35) / 2;
+        if (oXW < -50999) {
+            oXW = (can.width - 35) / 4;
             oYW = -160;
             oXvW = 0;
             oYvW = 0;
@@ -148,8 +145,8 @@ function lower() {
     } else if (it == "v") {
         dkWW = 1;
     } else if (it == "d") {
-        if (oXWW < -9999) {
-            oXWW = (can.width - 35) / 4 * 3;
+        if (oXWW < -50999) {
+            oXWW = (can.width - 35) / 2;
             oYWW = -160;
             oXvWW = 0;
             oYvWW = 0;
@@ -162,8 +159,8 @@ function lower() {
     } else if (it == "k") {
         dkWWW = 1;
     } else if (it == "u") {
-        if (oXWWW < -9999) {
-            oXWWW = (can.width - 35) / 4;
+        if (oXWWW < -50999) {
+            oXWWW = (can.width - 35) / 4 * 3;
             oYWWW = -160;
             oXvWWW = 0;
             oYvWWW = 0;
@@ -333,13 +330,13 @@ function conWW() {
 // interprets inputs as controls for fourth player
 function conWWW() {
     if (aWWW == 1) {
-        oXvWWW -= .1 * D;
+        oXvWWW -= .12 * D;
     }
     if (dkWWW == 1) {
-        oXvWWW += .1 * D;
+        oXvWWW += .12 * D;
     }
     if (wWWW >= 10 && floorWWW >= 1) {
-        oYvWWW = -1.25 * D;
+        oYvWWW = -1.2 * D;
         //wWWW = 0;
 }}
 
@@ -404,29 +401,36 @@ function make() {
     /*ctx.fillStyle = "red";
     ctx.fillRect(oX, oY, 35, 80);*/
     // ^^ shows player hit-box, a red rectangle(used for testing).
-
+    
     // draws the fourth player character
-    ctx.fillStyle = "#8cbe8a";
+    ctx.fillStyle = "rgb(158, 32, 21)";
+    ctx.fillRect(oXWWW-8.75, oYWWW, 50, 50);
+    ctx.fillStyle = "rgb(31, 184, 58)";
+    ctx.fillRect(oXWWW-8.75, oYWWW, 50, 15);
+    ctx.strokeStyle = "black"; // outline
+    ctx.lineWidth = "1";
+    ctx.strokeRect(oXWWW-8.75, oYWWW, 50, 50);
+    /*
+    ctx.fillStyle = "rgb(158, 32, 21)";
     ctx.fillRect(oXWWW - 8.75, oYWWW + 10, 52.5, 40);
-    ctx.fillStyle = "#f2daba";
+    ctx.fillStyle = "rgb(158, 32, 21)";
     ctx.fillRect(oXWWW + 5, oYWWW - 15, 25, 25);
     ctx.fillRect(oXWWW - 8.75, oYWWW + 20, 12.5, 30);
     ctx.fillRect(oXWWW + 30, oYWWW + 20, 12.5, 30);
-    ctx.fillStyle = "#e59947";
+    ctx.fillStyle = "rgb(31, 184, 58)";
     ctx.fillRect(oXWWW + 5, oYWWW - 15, 25, 10);
-    ctx.fillStyle = "#684530";
-    ctx.fillRect(oXWWW + 5, oYWWW + 50, 25, 30);
+    */
     
     // draws the third player character
-    ctx.fillStyle = "#8cbe8a";
+    ctx.fillStyle = "rgba(0,0,0,0.15)";
     ctx.fillRect(oXWW - 8.75, oYWW + 10, 52.5, 40);
-    ctx.fillStyle = "#f2daba";
+    ctx.fillStyle = "rgba(0,0,0,0.05)";
     ctx.fillRect(oXWW + 5, oYWW - 15, 25, 25);
     ctx.fillRect(oXWW - 8.75, oYWW + 20, 12.5, 30);
     ctx.fillRect(oXWW + 30, oYWW + 20, 12.5, 30);
-    ctx.fillStyle = "#e59947";
+    ctx.fillStyle = "rgba(0,0,0,0.15)";
     ctx.fillRect(oXWW + 5, oYWW - 15, 25, 10);
-    ctx.fillStyle = "#684530";
+    ctx.fillStyle = "rgba(0,0,0,0.225)";
     ctx.fillRect(oXWW + 5, oYWW + 50, 25, 30);
 
     // draws the second player character
@@ -547,7 +551,7 @@ function pos() {
     }
     oX += oXv;
     oY += oYv;
-    if (oY >= can.height && oYW >= can.height) {
+    if (oY >= can.height && oYW >= can.height && oYWW >= can.height && oYWWW >= can.height) {
         redo();
     }
 }
@@ -570,9 +574,6 @@ function posW() {
     }
     oXW += oXvW;
     oYW += oYvW;
-    if (oYW >= can.height && oY >= can.height) {
-        redo();
-    }
 }
 
 // positioning/Movement for the third player.
@@ -593,9 +594,6 @@ function posWW() {
     }
     oXWW += oXvWW;
     oYWW += oYvWW;
-    if (oYWW >= can.height && oY >= can.height) {
-        redo();
-    }
 }
 
 // positioning/Movement for the four player.
@@ -616,9 +614,6 @@ function posWWW() {
     }
     oXWWW += oXvWWW;
     oYWWW += oYvWWW;
-    if (oYWWW >= can.height && oY >= can.height) {
-        redo();
-    }
 }
 
 // standardises positions onto the grid for checking.
@@ -740,7 +735,7 @@ function colWWW() {
     for (let i = 0; i <= pT.length; i++) {
         if (pT[i] != 0) {
             // floor and ceiling collisions(vertical).
-            if (pY[i] <= C(oYWWW, 80) && pY[i] >= C(oYWWW, 105) && pX[i] >= C(oXWWW, 10) && pX[i] <= C(oXWWW, 25)) {
+            if (pY[i] <= C(oYWWW, 80 - 35) && pY[i] >= C(oYWWW, 105 - 35) && pX[i] >= C(oXWWW, 10) && pX[i] <= C(oXWWW, 25)) {
                 hey = "nok";
                 floorWWW = 1;
             } else if (hey == "k") {
@@ -752,11 +747,11 @@ function colWWW() {
             }
 
             // wall collisions(horizontal).
-            if (pY[i] <= C(oYWWW, 75) && pY[i] >= C(oYWWW, 15) && floor != 10 && pX[i] >= C(oXWWW, 35) && pX[i] <= C(oXWWW, 35)) {
+            if (pY[i] <= C(oYWWW, 75 - 35) && pY[i] >= C(oYWWW, 15) && floor != 10 && pX[i] >= C(oXWWW, 35) && pX[i] <= C(oXWWW, 35)) {
                     oXvWWW = 0;
                     oXWWW --;
             }
-            if (pY[i] <= C(oYWWW, 75) && pY[i] >= C(oYWWW, 15) && floor != 10 && pX[i] >= C(oXWWW, 0) && pX[i] <= C(oXWWW, -35)) {
+            if (pY[i] <= C(oYWWW, 75 - 35) && pY[i] >= C(oYWWW, 15) && floor != 10 && pX[i] >= C(oXWWW, 0) && pX[i] <= C(oXWWW, -35)) {
                 oXvWWW = 0;
                 oXWWW ++;
 }}}}
