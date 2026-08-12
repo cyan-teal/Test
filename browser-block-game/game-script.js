@@ -69,6 +69,7 @@ let Y;
 // Sets up necessary event listeners than trigger the main game loop
 redo();
 document.querySelector("h3").addEventListener("click", notify);
+document.getElementById("block").addEventListener("click", notify2);
 window.addEventListener("resize", redo);
 window.addEventListener("keydown", lower);
 window.addEventListener("keyup", high);
@@ -81,6 +82,11 @@ requestAnimationFrame(loop);
 function notify() {
     alert("P1: Arrows + Shift. P2: 2QE. P3:DXV. P4:UHK");
     lastUpdate = Date.now()
+}
+
+// Tells Player controls.
+function notify2() {
+        net = (net + 1) % 5;
 }
 
 // Handle actions following the mouse going down.
@@ -281,7 +287,7 @@ function loop() {
     } else {
         abc = "Grass"
     }
-    document.getElementById("block").textContent = abc;
+    document.getElementById("block").textContent = "Selected block: "+abc;
     requestAnimationFrame(loop);
 }
 
@@ -404,12 +410,12 @@ function make() {
     
     // draws the fourth player character
     ctx.fillStyle = "rgb(158, 32, 21)";
-    ctx.fillRect(oXWWW-8.75, oYWWW, 50, 50);
+    ctx.fillRect(oXWWW-8.75, oYWWW-5, 50, 50);
     ctx.fillStyle = "rgb(31, 184, 58)";
-    ctx.fillRect(oXWWW-8.75, oYWWW, 50, 15);
+    ctx.fillRect(oXWWW-8.75, oYWWW-5, 50, 15);
     ctx.strokeStyle = "black"; // outline
     ctx.lineWidth = "1";
-    ctx.strokeRect(oXWWW-8.75, oYWWW, 50, 50);
+    ctx.strokeRect(oXWWW-8.75, oYWWW-5, 50, 50);
     /*
     ctx.fillStyle = "rgb(158, 32, 21)";
     ctx.fillRect(oXWWW - 8.75, oYWWW + 10, 52.5, 40);
@@ -422,15 +428,15 @@ function make() {
     */
     
     // draws the third player character
-    ctx.fillStyle = "rgba(0,0,0,0.15)";
+    ctx.fillStyle = "rgb(0,0,0)";
     ctx.fillRect(oXWW - 8.75, oYWW + 10, 52.5, 40);
-    ctx.fillStyle = "rgba(0,0,0,0.05)";
+    ctx.fillStyle = "rgb(0,0,0)";
     ctx.fillRect(oXWW + 5, oYWW - 15, 25, 25);
     ctx.fillRect(oXWW - 8.75, oYWW + 20, 12.5, 30);
     ctx.fillRect(oXWW + 30, oYWW + 20, 12.5, 30);
-    ctx.fillStyle = "rgba(0,0,0,0.15)";
+    ctx.fillStyle = "rgb(0,0,0)";
     ctx.fillRect(oXWW + 5, oYWW - 15, 25, 10);
-    ctx.fillStyle = "rgba(0,0,0,0.225)";
+    ctx.fillStyle = "rgb(0,0,0)";
     ctx.fillRect(oXWW + 5, oYWW + 50, 25, 30);
 
     // draws the second player character
@@ -747,11 +753,11 @@ function colWWW() {
             }
 
             // wall collisions(horizontal).
-            if (pY[i] <= C(oYWWW, 75 - 35) && pY[i] >= C(oYWWW, 15) && floor != 10 && pX[i] >= C(oXWWW, 35) && pX[i] <= C(oXWWW, 35)) {
+            if (pY[i] <= C(oYWWW, 75 - 35) && pY[i] >= C(oYWWW, 15) && floor != 10 && pX[i] >= C(oXWWW, 35 + 5) && pX[i] <= C(oXWWW, 35 + 5)) {
                     oXvWWW = 0;
                     oXWWW --;
             }
-            if (pY[i] <= C(oYWWW, 75 - 35) && pY[i] >= C(oYWWW, 15) && floor != 10 && pX[i] >= C(oXWWW, 0) && pX[i] <= C(oXWWW, -35)) {
+            if (pY[i] <= C(oYWWW, 75 - 35) && pY[i] >= C(oYWWW, 15) && floor != 10 && pX[i] >= C(oXWWW, 0 - 5) && pX[i] <= C(oXWWW, -35 - 5)) {
                 oXvWWW = 0;
                 oXWWW ++;
 }}}}
