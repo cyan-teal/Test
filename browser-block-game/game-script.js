@@ -138,10 +138,10 @@ function lower() {
         dkW = 1;
     } else if (it == "2") {
         if (oXW < -50999) {
-            oXW = (can.width - 35) / 4;
-            oYW = -160;
-            oXvW = 0;
-            oYvW = 0;
+            oXW = 0;
+            oYW = 0;
+            oXvW = 99;
+            oYvW = 33;
         }
         wW = 20;
     }
@@ -152,10 +152,10 @@ function lower() {
         dkWW = 1;
     } else if (it == "d") {
         if (oXWW < -50999) {
-            oXWW = (can.width - 35) / 2;
-            oYWW = -160;
-            oXvWW = 0;
-            oYvWW = 0;
+            oXWW = oX;
+            oYWW = oY;
+            oXvWW = oXv;
+            oYvWW = oXy;
         }
         wWW = 20;
     }
@@ -166,10 +166,10 @@ function lower() {
         dkWWW = 1;
     } else if (it == "u") {
         if (oXWWW < -50999) {
-            oXWWW = (can.width - 35) / 4 * 3;
-            oYWWW = -160;
-            oXvWWW = 0;
-            oYvWWW = 0;
+            oXWWW = 100;
+            oYWWW = 100;
+            oXvWWW = 190;
+            oYvWWW = 40;
         }
         wWWW = 20;
     }
@@ -329,7 +329,7 @@ function conWW() {
         oXvWW += .1 * D;
     }
     if (wWW >= 10 && floorWW >= 1) {
-        oYvWW = -1.65 * D;
+        oYvWW = -1.25 * D;
         //wWW = 0;
 }}
 
@@ -596,7 +596,7 @@ function posWW() {
             oYvWW = 0;
         }
     } else {
-        oYvWW += .042 * D;
+        oYvWW += .075 * D;
     }
     oXWW += oXvWW;
     oYWW += oYvWW;
